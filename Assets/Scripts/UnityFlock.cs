@@ -74,7 +74,7 @@ public class UnityFlock : MonoBehaviour {
 
     IEnumerator UpdateRandom()
     {
-        while( true)
+        while( true )
         {
             randomPush = Random.insideUnitSphere * randomForce;
             yield return new WaitForSeconds(randomFreq + Random.Range(-randomFreq / 2.0f, randomFreq / 2.0f));
@@ -98,7 +98,7 @@ public class UnityFlock : MonoBehaviour {
         for( int i = 0; i < objects.Length; i++)
         {
             Transform transform = objects[i];
-            if( transform != transformComponent)
+            if( transform != transformComponent )
             {
                 Vector3 otherPosition = transform.position;
 
