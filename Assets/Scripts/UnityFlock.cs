@@ -49,7 +49,7 @@ public class UnityFlock : MonoBehaviour {
 
         //Get all the unity flock components from the parent
         //transform in the group
-        if( transform.parent)
+        if( transform.parent )
         {
             tempFlocks = transform.parent.GetComponentsInChildren<UnityFlock>();
         }

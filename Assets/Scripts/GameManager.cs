@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour {
         FOLLOW
     }
 
-    public FlockMode currentFlockMode = 0;
+    public static FlockMode currentFlockMode = 0;
 
     private void Awake()
     {
@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour {
         switch( flockMode)
         {
             case FlockMode.LAZY:
-                Debug.Log("Lazy Flock Mode");
+                Debug.Log("Lazy Flock Mode");                
                 break;
             case FlockMode.FOLLOW:
                 Debug.Log("Follow Flock Mode");
