@@ -21,4 +21,21 @@ public class Target : MonoBehaviour {
 
         transform.position = new Vector3(posX, posY, posZ);
     }
+
+    public void MoveToPoint(Vector3 position)
+    {
+        float xMin = initialPosition.x - bound.x;
+        float xMax = initialPosition.x + bound.x;
+        position.x = Mathf.Clamp(position.x, xMin, xMax);
+
+        float yMin = initialPosition.y - bound.y;
+        float yMax = initialPosition.y + bound.y;
+        position.y = Mathf.Clamp(position.y, yMin, yMax);
+
+        float zMin = initialPosition.z - bound.z;
+        float zMax = initialPosition.z + bound.z;
+        position.z = Mathf.Clamp(position.z, yMin, zMax);
+
+        transform.position = position;
+    }
 }

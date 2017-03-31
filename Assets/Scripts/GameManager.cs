@@ -82,20 +82,18 @@ public class GameManager : MonoBehaviour {
                 targetObject.MoveToNewPosition();
             }
         }
-        else if( currentFlockMode == FlockMode.CIRCLE)
+        else if( currentFlockMode == FlockMode.CIRCLE )
         {
 
         }
-        else if( currentFlockMode == FlockMode.FOLLOW)
+        else if( currentFlockMode == FlockMode.FOLLOW )
         {
-            if (Input.GetMouseButtonDown(0))
+            if ( Input.GetMouseButtonDown(0) )
             {
-                RaycastHit hit;
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out hit))
-                {
-                    targetObject.transform.position = hit.point;                    
-                }
+                Vector3 v3 = Input.mousePosition;
+                v3.z = 150.0f;
+                v3 = Camera.main.ScreenToWorldPoint(v3);
+                targetObject.MoveToPoint(v3);
             }
         }
     }
