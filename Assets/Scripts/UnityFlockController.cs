@@ -6,34 +6,52 @@ public class UnityFlockController : MonoBehaviour {
     public Vector3 offset;
     public Vector3 bound;
     public float speed = 100.0f;
-    public GameObject target;
+    public int flockSize = 5;
     
-    public Vector3 initialPosition;
-    public Vector3 nextMovementPoint;
-    private GameObject targetInstance;
+    private Vector3 initialPosition;        
+    public UnityFlock prefab;
+    
+    public Vector3 flockCenter;
+    internal Vector3 flockVelocity;
+    private Vector3 nextMovementPoint;
+            
+    public ArrayList flockList = new ArrayList();    
 
-	// Use this for initialization
-	void Start () {
-        initialPosition = transform.position;
-        CalculateNextMovementPoint();        
-        targetInstance = Instantiate(target, nextMovementPoint, Quaternion.identity) as GameObject;        
+    // Use this for initialization
+    void Start () {
+        initialPosition = transform.position;               
+               
+        for (int i = 0; i < flockSize; i++)
+        {
+            UnityFlock flock = Instantiate(prefab, transform.position, transform.rotation) as UnityFlock;
+            flock.transform.parent = transform;
+            flock.controller = this;
+            flockList.Add(flock);
+        }
     }
 	
 	// Update is called once per frame
 	void Update () {
+        Vector3 center = Vector3.zero;
+        Vector3 velocity = Vector3.zero;
+
+        foreach (UnityFlock flock in flockList)
+        {
+            center += flock.transform.localPosition;
+            velocity += flock.rigidBody.velocity;
+        }
+
+        flockCenter = center / flockSize;
+        flockVelocity = velocity / flockSize;
+
+        
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(nextMovementPoint - transform.position), 1.0f * Time.deltaTime);
-        targetInstance.transform.position = nextMovementPoint;
-
-        if (Vector3.Distance(nextMovementPoint, transform.position) <= 10.0f)
+        
+        if( Vector3.Distance(nextMovementPoint, transform.position) <= 10.0f)
         {
-            CalculateNextMovementPoint();
-        }
-        if ( GameManager.currentFlockMode == GameManager.FlockMode.LAZY)
-        {          
-
-        }
-                
+            //CalculateNextMovementPoint();
+        }                     
 	}
 
     void CalculateNextMovementPoint()
@@ -42,8 +60,12 @@ public class UnityFlockController : MonoBehaviour {
         float posY = Random.Range(initialPosition.y - bound.y, initialPosition.y + bound.y);
         float posZ = Random.Range(initialPosition.z - bound.z, initialPosition.z + bound.z);
 
-        nextMovementPoint = initialPosition + new Vector3(posX, posY, posZ);
+        nextMovementPoint = initialPosition + new Vector3(posX, posY, posZ);        
+    }
 
-        Debug.Log("New Target Position: " + nextMovementPoint);
+
+    public void MoveTowardsTarget(Transform targetTransform)
+    {
+        nextMovementPoint = targetTransform.position;
     }
 }

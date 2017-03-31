@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class UnityFlock : MonoBehaviour {
+    internal UnityFlockController controller;
+
+    internal Rigidbody rigidBody;
     public float minSpeed = 20.0f;
     public float turnSpeed = 20.0f;
     public float randomFreq = 20.0f;
@@ -31,8 +34,6 @@ public class UnityFlock : MonoBehaviour {
     private Transform[] objects;
     private UnityFlock[] otherFlocks;
     private Transform transformComponent;
-
-
 
 	// Use this for initialization
 	void Start () {
@@ -67,6 +68,7 @@ public class UnityFlock : MonoBehaviour {
         //Null parent as the flock leader will be
         //UnityFlockController object
         transform.parent = null;
+        rigidBody = GetComponent<Rigidbody>();
 
         //Calculate random push depends on the random frequency provided
         StartCoroutine(UpdateRandom());
