@@ -61,11 +61,11 @@ public class GameManager : MonoBehaviour {
                 targetObject.MoveToNewPosition();             
                 break;
             case FlockMode.FOLLOW:
-                Debug.Log("Follow Flock Mode");
+                Debug.Log("Follow Flock Mode");                
                 break;
             case FlockMode.CIRCLE:
                 Debug.Log("Circle Flock Mode");
-                targetObject.transform.position = flockController.flockCenter;
+                targetObject.MoveToNextShapePosition();
                 break;
         }       
     }
@@ -76,15 +76,17 @@ public class GameManager : MonoBehaviour {
 
         if ( currentFlockMode == FlockMode.LAZY )
         {            
-            if (Vector3.Distance(targetObject.transform.position, flockController.flockCenter) <= 10.0f)
-            {
-                Debug.Log("Flock Reached Target");
+            if ( Vector3.Distance(targetObject.transform.position, flockController.flockCenter) <= 10.0f )
+            {                
                 targetObject.MoveToNewPosition();
             }
         }
         else if( currentFlockMode == FlockMode.CIRCLE )
         {
-
+            if( Vector3.Distance(targetObject.transform.position, flockController.flockCenter) <= 10.0f )
+            {
+                targetObject.MoveToNextShapePosition();
+            }
         }
         else if( currentFlockMode == FlockMode.FOLLOW )
         {
